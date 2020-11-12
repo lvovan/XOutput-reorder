@@ -1,8 +1,6 @@
-[![Build](https://ci.appveyor.com/api/projects/status/github/csutorasa/XOutput?branch=master&svg=true)](https://ci.appveyor.com/project/csutorasa/xoutput/)
-[![Github All Releases](https://img.shields.io/github/downloads/csutorasa/XOutput/total.svg)](https://github.com/csutorasa/XOutput/releases/)
-[![Download XOutput](https://img.shields.io/sourceforge/dt/xoutput.svg)](https://sourceforge.net/projects/xoutput/files/latest/download)
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/csutorasa)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=XOutput&metric=alert_status)](https://sonarcloud.io/dashboard?id=XOutput)
+# Reorder joystick fork
+
+This is a fork of the original (and great) [XOutput](https://github.com/csutorasa/XOutput) project by csutorasa. As you may know, Windows and some joystick controllers have a nasty habit of randomly changing order after each reboot - in my case the 1P and 2P joysticks on my arcade machine sometimes switch places. This version of XOutput adds a somewhat hacky way to easily reorder FinalBurn and TeknoParrot joystick configurations on start.
 
 # XOutput
 

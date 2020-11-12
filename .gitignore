@@ -1,0 +1,15 @@
+# IDE
+.vs
+.vscode
+
+# Output
+*/bin
+*/obj
+
+# Nuget packages
+packages
+*.nupkg
+
+# Test result files
+TestResults
+XOutputTests/coverage.opencover.xml

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "XOutput": {
+      "commandName": "Project",
+      "commandLineArgs": "--minimized"
+    }
+  }
+}

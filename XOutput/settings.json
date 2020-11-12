@@ -1,0 +1,78 @@
+{
+  "FinalBurnPath": "C:\\Users\\lvovan\\Downloads\fbneo",
+  "FinalBurnSwitches": [
+    {
+      "WindowsIndex": 0,
+      "Coin": "0x4087",
+      "Start": "0x4086",
+      "Up": "0x4002",
+      "Down": "0x4003",
+      "Left": "0x4000",
+      "Right": "0x4001",
+      "LP": "0x4080",
+      "MP": "0x4081",
+      "HP": "0x4082",
+      "LK": "0x4083",
+      "MK": "0x4084",
+      "HK": "0x4085",
+      "Select": "0x04",
+      "A": "0x4083",
+      "B": "0x4080",
+      "C": "0x4081",
+      "D": "0x4082"
+    },
+    {
+      "WindowsIndex": 1,
+      "Coin": "0x4187",
+      "Start": "0x4186",
+      "Up": "0x4102",
+      "Down": "0x4103",
+      "Left": "0x4100",
+      "Right": "0x4101",
+      "LP": "0x4180",
+      "MP": "0x4181",
+      "HP": "0x4182",
+      "LK": "0x4183",
+      "MK": "0x4184",
+      "HK": "0x4185",
+      "Select": "0x04",
+      "A": "0x4183",
+      "B": "0x4180",
+      "C": "0x4181",
+      "D": "0x4182"
+    },
+    {
+      "WindowsIndex": 2,
+      "Coin": "0x4287",
+      "Start": "0x4286",
+      "Up": "0x4202",
+      "Down": "0x4203",
+      "Left": "0x4200",
+      "Right": "0x4201",
+      "LP": "0x4280",
+      "MP": "0x4281",
+      "HP": "0x4282",
+      "LK": "0x4283",
+      "MK": "0x4284",
+      "HK": "0x4285",
+      "Select": "0x04",
+      "A": "0x4283",
+      "B": "0x4280",
+      "C": "0x4281",
+      "D": "0x4282"
+    }
+  ],
+  "CloseToTray": false,
+  "ShowAll": false,
+  "HidGuardianEnabled": false,
+  "Language": "English",
+  "Input": {
+    "Keyboard": {
+      "ForceFeedback": false
+    },
+    "Mouse": {
+      "ForceFeedback": false
+    }
+  },
+  "Mapping": []
+}

@@ -33,6 +33,7 @@ namespace XOutput.Tools
 
         public string FinalBurnPath { get; set; }
         public List<FinalBurnInputSwitches> FinalBurnSwitches { get; set; }
+        public string TeknoParrotUIPath { get; set; }
         public bool CloseToTray { get; set; }
         public bool ShowAll { get; set; }
         public bool HidGuardianEnabled { get; set; }

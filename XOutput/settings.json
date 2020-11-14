@@ -1,9 +1,9 @@
 {
-  "FinalBurnPath": "C:\\Users\\lvovan\\Downloads\fbneo",
+  "FinalBurnPath": "C:\\Users\\lvovan\\Downloads\\fbneo",
   "FinalBurnSwitches": [
     {
       "WindowsIndex": 0,
-      "Coin": "0x4087",
+      "Coin": "0x06",
       "Start": "0x4086",
       "Up": "0x4002",
       "Down": "0x4003",
@@ -23,7 +23,7 @@
     },
     {
       "WindowsIndex": 1,
-      "Coin": "0x4187",
+      "Coin": "0x07",
       "Start": "0x4186",
       "Up": "0x4102",
       "Down": "0x4103",
@@ -43,7 +43,7 @@
     },
     {
       "WindowsIndex": 2,
-      "Coin": "0x4287",
+      "Coin": "0x08",
       "Start": "0x4286",
       "Up": "0x4202",
       "Down": "0x4203",
@@ -62,6 +62,7 @@
       "D": "0x4282"
     }
   ],
+  "TeknoParrotUIPath": "C:\\Users\\lvovan\\Downloads",
   "CloseToTray": false,
   "ShowAll": false,
   "HidGuardianEnabled": false,

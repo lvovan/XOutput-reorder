@@ -89,16 +89,17 @@ namespace XOutput.Tools
                 if (fbis == null)
                     continue;
 
-                sb.AppendLine($"input  \"P{device.PlayerIndex} Coin\"          switch 0x{fbis.Coin}");
-                sb.AppendLine($"input  \"P{device.PlayerIndex} Start\"         switch 0x{fbis.Start}");
-                sb.AppendLine($"input  \"P{device.PlayerIndex} Select\"        switch 0x{fbis.Select}");
-                sb.AppendLine($"input  \"P{device.PlayerIndex} Down\"          switch 0x{fbis.Down}");
-                sb.AppendLine($"input  \"P{device.PlayerIndex} Left\"          switch 0x{fbis.Left}");
-                sb.AppendLine($"input  \"P{device.PlayerIndex} Right\"         switch 0x{fbis.Right}");
-                sb.AppendLine($"input  \"P{device.PlayerIndex} Button A\"      switch 0x{fbis.A}");
-                sb.AppendLine($"input  \"P{device.PlayerIndex} Button B\"      switch 0x{fbis.B}");
-                sb.AppendLine($"input  \"P{device.PlayerIndex} Button C\"      switch 0x{fbis.C}");
-                sb.AppendLine($"input  \"P{device.PlayerIndex} Button D\"      switch 0x{fbis.D}");
+                sb.AppendLine($"input  \"P{device.PlayerIndex} Coin\"          switch {fbis.Coin}");
+                sb.AppendLine($"input  \"P{device.PlayerIndex} Start\"         switch {fbis.Start}");
+                sb.AppendLine($"input  \"P{device.PlayerIndex} Select\"        switch {fbis.Select}");
+                sb.AppendLine($"input  \"P{device.PlayerIndex} Up\"            switch {fbis.Up}");
+                sb.AppendLine($"input  \"P{device.PlayerIndex} Down\"          switch {fbis.Down}");
+                sb.AppendLine($"input  \"P{device.PlayerIndex} Left\"          switch {fbis.Left}");
+                sb.AppendLine($"input  \"P{device.PlayerIndex} Right\"         switch {fbis.Right}");
+                sb.AppendLine($"input  \"P{device.PlayerIndex} Button A\"      switch {fbis.A}");
+                sb.AppendLine($"input  \"P{device.PlayerIndex} Button B\"      switch {fbis.B}");
+                sb.AppendLine($"input  \"P{device.PlayerIndex} Button C\"      switch {fbis.C}");
+                sb.AppendLine($"input  \"P{device.PlayerIndex} Button D\"      switch {fbis.D}");
             }
             sb.AppendLine("");
             sb.AppendLine("input  \"Reset\"            switch 0x3D");
@@ -107,6 +108,13 @@ namespace XOutput.Tools
 
             File.WriteAllText(Path.Combine(fbPath, @"config\presets\neogeo.ini"), sb.ToString());
             #endregion
+
+            // Delete game-specific ini files
+            foreach (var file in new DirectoryInfo(Path.Combine(fbPath, @"config\games")).GetFiles())
+            {
+                file.Delete();
+            }
+
         }
     }
 }

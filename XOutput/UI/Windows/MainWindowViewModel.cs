@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Threading;
 using XOutput.Devices;
 using XOutput.Devices.Input;
@@ -173,7 +174,7 @@ namespace XOutput.UI.Windows
             directDevices = devices.OfType<DirectDevice>().ToList();
             foreach (DirectDevice deviceInstance in directDevices)
             {
-                var inputDevice = devices.OfType<DirectDevice>().Where(d => (devices[0] as DirectDevice).Id == deviceInstance.Id).Single();
+                var inputDevice = devices.OfType<DirectDevice>().Where(d => (d as DirectDevice).Id == deviceInstance.Id).Single();
                 inputDevice.WindowsIndex = windowsIndex;
                 windowsIndex++;
             }
@@ -184,13 +185,14 @@ namespace XOutput.UI.Windows
 
         #region Reorder controllers
         Window w = null;
-        int playerOrderInit = 1;
+        int playerOrderInit;
 
         internal void OpenJoystickOrder()
         {
             if (!directDevices.Any())
                 return;
 
+            playerOrderInit = 1;
             foreach (var device in directDevices)
                 device.InputChanged += Device_InputChanged;
             w = new Window();
@@ -228,8 +230,12 @@ namespace XOutput.UI.Windows
                 else
                 {
                     playerOrderInit++;
-                    (w.Content as System.Windows.Controls.TextBox).Text = string.Format(Translate("JoystickOrderPlayerMessage"), playerOrderInit);
+                    (w.Content as System.Windows.Controls.TextBlock).Text = string.Format(Translate("JoystickOrderPlayerMessage"), playerOrderInit);
                 }
+
+                var mp = new MediaPlayer();
+                var player = new System.Media.SoundPlayer(@"SE_00018.wav");
+                player.Play();
             }));
         }
 
@@ -239,6 +245,9 @@ namespace XOutput.UI.Windows
             foreach (var device in directDevices)
                 device.InputChanged -= Device_InputChanged;
             ApplyPlayerIndexesOnEmulators();
+            var mp = new MediaPlayer();
+            var player = new System.Media.SoundPlayer(@"SE_00021.wav");
+            player.Play();
         }
 
         internal void ApplyPlayerIndexesOnEmulators()
@@ -253,8 +262,9 @@ namespace XOutput.UI.Windows
                 // Apply the desired setting on...
                 // FinalBurn
                 FinalBurnConfigWriter.WriteConfig(settings.FinalBurnPath, settings.FinalBurnSwitches, directDevices);
-                
+
                 // TeknoParrot
+                var teknoParrotConfig = new TeknoParrotUIConfigWriter(settings.TeknoParrotUIPath);
             }    
 
         }

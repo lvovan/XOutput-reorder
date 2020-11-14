@@ -5,6 +5,8 @@
 # Output
 */bin
 */obj
+[Bb]in
+[Dd]ebug
 
 # Nuget packages
 packages

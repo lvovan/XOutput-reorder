@@ -5,22 +5,60 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Serialization;
 using TeknoParrotUi.Common;
+using XOutput.Devices.Input.DirectInput;
 using Keys = System.Windows.Forms.Keys;
 
 namespace XOutput.Tools
 {
     public class TeknoParrotUIConfigWriter
     {
-        public TeknoParrotUIConfigWriter(string path)
+        public TeknoParrotUIConfigWriter(string path, List<TeknoParrotUiButton> teknoParrotUiButtons, List<DirectDevice> devices)
         {
-            foreach (var file in new DirectoryInfo(Path.Combine(path, @"GameProfiles")).GetFiles())
+            var userProfilePath = Path.Combine(path, @"UserProfiles");
+
+            var buttonNameTemplates = new List<string>();
+            buttonNameTemplates.Add(@"Service {0}");
+            buttonNameTemplates.Add(@"Coin {0}");
+            buttonNameTemplates.Add(@"Player {0} Start");
+            buttonNameTemplates.Add(@"Player {0} Up");
+            buttonNameTemplates.Add(@"Player {0} Down");
+            buttonNameTemplates.Add(@"Player {0} Left");
+            buttonNameTemplates.Add(@"Player {0} Right");
+            for (int i = 1; i <= 6; i++)
+                buttonNameTemplates.Add($"Player {0} Button {i}");
+
+            foreach (var file in new DirectoryInfo(userProfilePath).GetFiles())
             {
-                var gp = DeSerializeGameProfile(file.FullName);
+
+                var gp = DeserializeGameProfile(file.FullName);
+
+                foreach (var device in devices)
+                {
+                    if (device.PlayerIndex == 0)
+                        continue;
+
+                    foreach (var buttonConfig in teknoParrotUiButtons[0].Buttons)
+                    {
+                        foreach (var buttonNameTemplate in buttonNameTemplates)
+                        {
+                            var btnName = string.Format(buttonNameTemplate, device.PlayerIndex.ToString());
+                            var buttonConfigClone = JsonConvert.DeserializeObject<JoystickButtons>(JsonConvert.SerializeObject(buttonConfig));
+                            buttonConfigClone.ButtonName = btnName;
+                            buttonConfigClone.DirectInputButton.JoystickGuid = device.Id;
+
+                            // Remove previous button config if it existed
+                            var toRemove = gp.JoystickButtons.SingleOrDefault(b => b.ButtonName == buttonConfigClone.ButtonName);
+                            if (toRemove != null)
+                                gp.JoystickButtons.Remove(toRemove);
+                            gp.JoystickButtons.Add(buttonConfigClone);
+                        }
+                    }
+                }
+                SerializeGameProfile(gp, file.FullName);
             }
         }
 
@@ -28,7 +66,7 @@ namespace XOutput.Tools
         /// Deserializes GameProfile.xml to the class.
         /// </summary>
         /// <returns>Read Gameprofile class.</returns>
-        private static GameProfile DeSerializeGameProfile(string fileName)
+        private static GameProfile DeserializeGameProfile(string fileName)
         {
             if (!File.Exists(fileName))
                 return null;
@@ -60,11 +98,32 @@ namespace XOutput.Tools
                 return null;
             }
         }
+
+        /// <summary>
+        /// Serializes GameProfile class to a GameProfile.xml file.
+        /// </summary>
+        /// <param name="profile"></param>
+        private static void SerializeGameProfile(GameProfile profile, string filename = "")
+        {
+            var serializer = new XmlSerializer(profile.GetType());
+            using (var writer = XmlWriter.Create(filename, new XmlWriterSettings { Indent = true }))
+            {
+                serializer.Serialize(writer, profile);
+            }
+        }
     }
 }
 
 namespace TeknoParrotUi.Common
 {
+    // WindowsIndex and player number in button descriptions are not used
+    // 
+    public class TeknoParrotUiButton : JoystickButton
+    {
+        public int WindowsIndex { get; set; }
+        public List<JoystickButtons> Buttons { get; set; }
+    }
+
     public enum InputApi
     {
         DirectInput,

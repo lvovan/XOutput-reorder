@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using TeknoParrotUi.Common;
 using XOutput.Devices.Input;
 using XOutput.Devices.Mapper;
 using XOutput.Devices.XInput;
@@ -33,7 +34,8 @@ namespace XOutput.Tools
 
         public string FinalBurnPath { get; set; }
         public List<FinalBurnInputSwitches> FinalBurnSwitches { get; set; }
-        public string TeknoParrotUIPath { get; set; }
+        public List<TeknoParrotUiButton> TeknoParrotUiButtons { get; set; }
+        public string TeknoParrotUiPath { get; set; }
         public bool CloseToTray { get; set; }
         public bool ShowAll { get; set; }
         public bool HidGuardianEnabled { get; set; }

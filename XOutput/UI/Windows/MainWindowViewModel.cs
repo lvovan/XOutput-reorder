@@ -174,7 +174,7 @@ namespace XOutput.UI.Windows
             directDevices = devices.OfType<DirectDevice>().ToList();
             foreach (DirectDevice deviceInstance in directDevices)
             {
-                var inputDevice = devices.OfType<DirectDevice>().Where(d => (d as DirectDevice).Id == deviceInstance.Id).Single();
+                var inputDevice = devices.OfType<DirectDevice>().Where(d => d.Id == deviceInstance.Id).Single();
                 inputDevice.WindowsIndex = windowsIndex;
                 windowsIndex++;
             }
@@ -254,19 +254,12 @@ namespace XOutput.UI.Windows
         {
             var directDevices = InputDevices.Instance.GetDevices().OfType<DirectDevice>().ToList();
 
-            foreach (var device in directDevices)
-            {
-                if (device.PlayerIndex == 0)
-                    continue;
+            // Apply the desired setting on...
+            // FinalBurn
+            FinalBurnConfigWriter.WriteConfig(settings.FinalBurnPath, settings.FinalBurnSwitches, directDevices);
 
-                // Apply the desired setting on...
-                // FinalBurn
-                FinalBurnConfigWriter.WriteConfig(settings.FinalBurnPath, settings.FinalBurnSwitches, directDevices);
-
-                // TeknoParrot
-                var teknoParrotConfig = new TeknoParrotUIConfigWriter(settings.TeknoParrotUIPath);
-            }    
-
+            // TeknoParrot
+            var teknoParrotConfig = new TeknoParrotUIConfigWriter(settings.TeknoParrotUiPath, settings.TeknoParrotUiButtons, directDevices);
         }
         #endregion
 

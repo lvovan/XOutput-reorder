@@ -49,6 +49,9 @@ namespace XOutput.Tools
 
             foreach (var device in devices)
             {
+                if (device.PlayerIndex == 0)
+                    continue;
+
                 var fbis = inputSwitches.Where(i => i.WindowsIndex == device.WindowsIndex).SingleOrDefault();
                 if (fbis == null)
                     continue;

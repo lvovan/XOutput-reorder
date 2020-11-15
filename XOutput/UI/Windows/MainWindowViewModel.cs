@@ -256,7 +256,7 @@ namespace XOutput.UI.Windows
 
             // Apply the desired setting on...
             // FinalBurn
-            FinalBurnConfigWriter.WriteConfig(settings.FinalBurnPath, settings.FinalBurnSwitches, directDevices);
+            FinalBurnConfigWriter.WriteConfig(settings.FinalBurnPath, settings.FinalBurnVersion, settings.FinalBurnSwitches, directDevices);
 
             // TeknoParrot
             var teknoParrotConfig = new TeknoParrotUIConfigWriter(settings.TeknoParrotUiPath, settings.TeknoParrotUiButtons, directDevices);

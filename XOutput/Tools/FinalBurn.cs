@@ -36,7 +36,7 @@ namespace XOutput.Tools
 
     public static class FinalBurnConfigWriter
     {
-        public static void WriteConfig(string fbPath, List<FinalBurnInputSwitches> inputSwitches, List<DirectDevice> devices)
+        public static void WriteConfig(string fbPath, string fbVersion, List<FinalBurnInputSwitches> inputSwitches, List<DirectDevice> devices)
         {
             #region cps.ini
             var sb = new StringBuilder();
@@ -44,7 +44,7 @@ namespace XOutput.Tools
             sb.AppendLine();
             sb.AppendLine("CPS-1/CPS-2/CPS-3 hardware");
             sb.AppendLine();
-            sb.AppendLine("version 0x100000");
+            sb.AppendLine($"version {fbVersion}");
             sb.AppendLine();
 
             foreach (var device in devices)
@@ -69,10 +69,23 @@ namespace XOutput.Tools
                 sb.AppendLine($"input  \"P{device.PlayerIndex} Medium Kick\"   switch {fbis.MK}");
                 sb.AppendLine($"input  \"P{device.PlayerIndex} Strong Kick\"   switch {fbis.HK}");
             }
-            sb.AppendLine("");
             sb.AppendLine("input  \"Reset\"            switch 0x3D");
             sb.AppendLine("input  \"Diagnostic\"       switch 0x3C");
             sb.AppendLine("input  \"Service\"          switch 0x3E");
+            sb.AppendLine("input  \"Volume Up\"        switch undefined");
+            sb.AppendLine("input  \"Volume Down\"      switch undefined");
+            sb.AppendLine();
+            var keysCps = new List<string>
+            {
+                "System Pause", "System FFWD", "System Load State", "System Save State","System UNDO State",
+                "P1 3x Punch", "P1 3x Kick", "P2 3x Punch", "P2 3x Kick"
+            };
+            for (int p = 1; p <= 2; p++)
+                for (int n = 1; n <= 8; n++)
+                    keysCps.Add($"P{p} Auto-Fire Button {n}");
+
+            foreach (var key in keysCps)
+                sb.AppendLine($"macro \"{key}\" undefined");
 
             File.WriteAllText(Path.Combine(fbPath, @"config\presets\cps.ini"), sb.ToString());
             #endregion
@@ -83,7 +96,7 @@ namespace XOutput.Tools
             sb.AppendLine();
             sb.AppendLine("Neo-Geo hardware");
             sb.AppendLine();
-            sb.AppendLine("version 0x100000");
+            sb.AppendLine($"version {fbVersion}");
             sb.AppendLine();
 
             foreach (var device in devices)
@@ -104,10 +117,37 @@ namespace XOutput.Tools
                 sb.AppendLine($"input  \"P{device.PlayerIndex} Button C\"      switch {fbis.C}");
                 sb.AppendLine($"input  \"P{device.PlayerIndex} Button D\"      switch {fbis.D}");
             }
-            sb.AppendLine("");
-            sb.AppendLine("input  \"Reset\"            switch 0x3D");
-            sb.AppendLine("input  \"Test\"             switch 0x3C");
-            sb.AppendLine("input  \"Service\"          switch 0x0A");
+            sb.AppendLine("input  \"Reset\"        switch 0x3D");
+            sb.AppendLine("input  \"Test\"         switch 0x3C");
+            sb.AppendLine("input  \"Dip 1\"        constant 0x00");
+            sb.AppendLine("input  \"Dip 2\"        constant 0x00");
+            sb.AppendLine("input  \"System\"       constant 0x00");
+            sb.AppendLine("input  \"Slots\"        constant 0x00");
+            sb.AppendLine("input  \"Debug Dip 1\"  constant 0x00");
+            sb.AppendLine("input  \"Debut Dip 2\"  constant 0x00");
+            sb.AppendLine();
+
+            var keysNeo = new List<string>
+            {
+                "System Pause", "System FFWD", "System Load State", "System Save State","System UNDO State",
+            };
+
+            for (int p = 1; p <= 2; p++)
+            {
+                for (int n = 1; n <= 4; n++)
+                    keysCps.Add($"P{p} Auto-Fire Button {n}");
+                keysCps.Add($"P{p} Buttons AB");
+                keysCps.Add($"P{p} Buttons AC");
+                keysCps.Add($"P{p} Buttons AD");
+                keysCps.Add($"P{p} Buttons BC");
+                keysCps.Add($"P{p} Buttons BD");
+                keysCps.Add($"P{p} Buttons CD");
+                keysCps.Add($"P{p} Buttons ABC");
+                keysCps.Add($"P{p} Buttons ABD");
+                keysCps.Add($"P{p} Buttons ACD");
+                keysCps.Add($"P{p} Buttons BCD");
+                keysCps.Add($"P{p} Buttons ABCD");
+            }
 
             File.WriteAllText(Path.Combine(fbPath, @"config\presets\neogeo.ini"), sb.ToString());
             #endregion

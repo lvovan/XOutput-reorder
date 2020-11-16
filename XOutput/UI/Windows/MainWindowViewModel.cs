@@ -45,7 +45,7 @@ namespace XOutput.UI.Windows
         {
             this.dispatcher = dispatcher;
             this.hidGuardianManager = hidGuardianManager;
-            timer.Interval = TimeSpan.FromMilliseconds(10000);
+            timer.Interval = TimeSpan.FromMilliseconds(5000);
             timer.Tick += (object sender1, EventArgs e1) => { RefreshGameControllers(); };
             timer.Start();
         }
@@ -318,6 +318,7 @@ namespace XOutput.UI.Windows
         {
             IEnumerable<SharpDX.DirectInput.DeviceInstance> instances = directInputDevices.GetInputDevices(Model.AllDevices);
 
+            bool changed = false;
             foreach (var inputView in Model.Inputs.ToArray())
             {
                 var device = inputView.ViewModel.Model.Device;
@@ -327,6 +328,7 @@ namespace XOutput.UI.Windows
                     InputDevices.Instance.Remove(device);
                     inputView.ViewModel.Dispose();
                     device.Dispose();
+                    changed = true;
                 }
             }
             foreach (var instance in instances)
@@ -342,7 +344,17 @@ namespace XOutput.UI.Windows
                     device.Disconnected -= DispatchRefreshGameControllers;
                     device.Disconnected += DispatchRefreshGameControllers;
                     Model.Inputs.Add(new InputView(new InputViewModel(new InputModel(), device, Model.IsAdmin)));
+                    changed = true;
                 }
+            }
+            if (changed)
+            {
+                foreach (var controller in Controllers.Instance.GetControllers())
+                {
+                    var mapper = settings.CreateMapper(controller.Mapper.Id);
+                    controller.Mapper.Mappings = mapper.Mappings;
+                }
+                Controllers.Instance.Update(InputDevices.Instance.GetDevices());
             }
         }
 

@@ -84,7 +84,7 @@ namespace XOutput.Devices.Mapper
                         {
                             if (mapperData.InputDevice == inputDevice.UniqueId)
                             {
-                                mapperData.Source = inputDevice.Sources.FirstOrDefault(s => s.Offset.ToString() == mapperData.InputType);
+                                mapperData.SetSourceWithoutSaving(inputDevice.Sources.FirstOrDefault(s => s.Offset.ToString() == mapperData.InputType));
                                 inputs.Add(inputDevice);
                                 found = true;
                                 break;
@@ -93,29 +93,29 @@ namespace XOutput.Devices.Mapper
                     }
                     if (!found)
                     {
-                        mapperData.Source = DisabledInputSource.Instance;
+                        mapperData.SetSourceWithoutSaving(DisabledInputSource.Instance);
                     }
                 }
             }
         }
 
-        ///// <summary>
-        ///// Reads value from file if available.
-        ///// </summary>
-        ///// <param name="data">line read from the file</param>
-        ///// <param name="defaultValue">default value to be returned when no value can be read</param>
-        ///// <returns></returns>
-        //protected static double TryReadValue(string data, double defaultValue = 0)
-        //{
-        //    double value;
-        //    if (double.TryParse(data, out value))
-        //    {
-        //        return value / 100;
-        //    }
-        //    else
-        //    {
-        //        return defaultValue;
-        //    }
-        //}
+        /// <summary>
+        /// Reads value from file if available.
+        /// </summary>
+        /// <param name="data">line read from the file</param>
+        /// <param name="defaultValue">default value to be returned when no value can be read</param>
+        /// <returns></returns>
+        protected static double TryReadValue(string data, double defaultValue = 0)
+        {
+            double value;
+            if (double.TryParse(data, out value))
+            {
+                return value / 100;
+            }
+            else
+            {
+                return defaultValue;
+            }
+        }
     }
 }

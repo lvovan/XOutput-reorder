@@ -116,13 +116,7 @@ namespace XOutput.Devices.Input.DirectInput
             }
         }
 
-        /// <summary>
-        /// The index of this controller among all detected controllers in Windows
-        /// </summary>
         public int WindowsIndex { get; set; }
-        /// <summary>
-        /// The desired player index of this controller among all detected controllers
-        /// </summary>
         public int PlayerIndex { get; set; }
         #endregion
 
@@ -170,7 +164,7 @@ namespace XOutput.Devices.Input.DirectInput
             {
                 joystick.SetCooperativeLevel(new WindowInteropHelper(Application.Current.MainWindow).Handle, CooperativeLevel.Background | CooperativeLevel.Exclusive);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 logger.Warning($"Failed to set cooperative level to exclusive for {ToString()}");
             }
@@ -205,7 +199,8 @@ namespace XOutput.Devices.Input.DirectInput
                 logger.Info(joystick.Properties.InstanceName + " " + ToString());
                 logger.Info(PrettyPrint.ToString(joystick));
                 logger.Info(PrettyPrint.ToString(joystick.GetObjects()));
-            } catch { }
+            }
+            catch { }
             foreach (var obj in joystick.GetObjects())
             {
                 logger.Info("  " + obj.Name + " " + obj.ObjectId + " offset: " + obj.Offset + " objecttype: " + obj.ObjectType.ToString() + " " + obj.Usage);
@@ -252,10 +247,7 @@ namespace XOutput.Devices.Input.DirectInput
         /// <returns>Friendly name</returns>
         public override string ToString()
         {
-            if (PlayerIndex == 0)
-                return UniqueId;
-            else
-                return $"[P{PlayerIndex}] {UniqueId}";
+            return UniqueId;
         }
 
         private void InputRefresher()

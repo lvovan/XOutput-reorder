@@ -98,7 +98,7 @@
         {
           "ButtonName": "Coin 1",
           "DirectInputButton": {
-            "Button": 54,
+            "Button": 55,
             "IsAxis": false,
             "IsAxisMinus": false,
             "IsFullAxis": false,

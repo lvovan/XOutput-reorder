@@ -29,33 +29,27 @@ namespace XOutput.Tools
             buttonNameTemplates.Add(@"Player {0} Left");
             buttonNameTemplates.Add(@"Player {0} Right");
             for (int i = 1; i <= 6; i++)
-                buttonNameTemplates.Add($"Player {0} Button {i}");
+                buttonNameTemplates.Add("Player {0} Button " + i.ToString());
 
             foreach (var file in new DirectoryInfo(userProfilePath).GetFiles())
             {
-
                 var gp = DeserializeGameProfile(file.FullName);
+                gp.JoystickButtons.Clear();
 
-                foreach (var device in devices)
+                foreach (var device in devices.OrderBy(d => d.PlayerIndex))
                 {
-                    if (device.PlayerIndex == 0)
+                    if (device.PlayerIndex != 1 && device.PlayerIndex != 2)
                         continue;
 
-                    foreach (var buttonConfig in teknoParrotUiButtons[0].Buttons)
+                    foreach (var buttonConfig in teknoParrotUiButtons[0].Buttons) // We only support one config right now
                     {
-                        foreach (var buttonNameTemplate in buttonNameTemplates)
-                        {
-                            var btnName = string.Format(buttonNameTemplate, device.PlayerIndex.ToString());
-                            var buttonConfigClone = JsonConvert.DeserializeObject<JoystickButtons>(JsonConvert.SerializeObject(buttonConfig));
-                            buttonConfigClone.ButtonName = btnName;
-                            buttonConfigClone.DirectInputButton.JoystickGuid = device.Id;
+                        var matchingTemplate = buttonNameTemplates.Single(bnt => Regex.IsMatch(buttonConfig.ButtonName, bnt.Replace("{0}", "\\d")));
+                        var buttonConfigClone = JsonConvert.DeserializeObject<JoystickButtons>(JsonConvert.SerializeObject(buttonConfig));
+                        buttonConfigClone.ButtonName = string.Format(matchingTemplate, device.PlayerIndex);
+                        buttonConfigClone.DirectInputButton.JoystickGuid = device.Id;
+                        buttonConfigClone.InputMapping = (InputMapping) Enum.Parse(typeof(InputMapping), buttonConfigClone.InputMapping.ToString().Replace("1", device.PlayerIndex.ToString()));
 
-                            // Remove previous button config if it existed
-                            var toRemove = gp.JoystickButtons.SingleOrDefault(b => b.ButtonName == buttonConfigClone.ButtonName);
-                            if (toRemove != null)
-                                gp.JoystickButtons.Remove(toRemove);
-                            gp.JoystickButtons.Add(buttonConfigClone);
-                        }
+                        gp.JoystickButtons.Add(buttonConfigClone);
                     }
                 }
                 SerializeGameProfile(gp, file.FullName);

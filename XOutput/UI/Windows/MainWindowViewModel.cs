@@ -252,14 +252,18 @@ namespace XOutput.UI.Windows
 
         internal void ApplyPlayerIndexesOnEmulators()
         {
-            var directDevices = InputDevices.Instance.GetDevices().OfType<DirectDevice>().ToList();
+            try
+            {
+                var directDevices = InputDevices.Instance.GetDevices().OfType<DirectDevice>().ToList();
 
-            // Apply the desired setting on...
-            // FinalBurn
-            FinalBurnConfigWriter.WriteConfig(settings.FinalBurnPath, settings.FinalBurnVersion, settings.FinalBurnSwitches, directDevices);
+                // Apply the desired setting on...
+                // FinalBurn
+                FinalBurnConfigWriter.WriteConfig(settings.FinalBurnPath, settings.FinalBurnVersion, settings.FinalBurnSwitches, directDevices);
 
-            // TeknoParrot
-            var teknoParrotConfig = new TeknoParrotUIConfigWriter(settings.TeknoParrotUiPath, settings.TeknoParrotUiButtons, directDevices);
+                // TeknoParrot
+                var teknoParrotConfig = new TeknoParrotUIConfigWriter(settings.TeknoParrotUiPath, settings.TeknoParrotUiButtons, directDevices);
+            }
+            catch { }
         }
         #endregion
 

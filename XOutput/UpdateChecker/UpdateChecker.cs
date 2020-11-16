@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Net;
-using System.Net.Http;
+//using System.Net.Http;
 using System.Threading.Tasks;
 using XOutput.Logging;
 
@@ -14,12 +14,12 @@ namespace XOutput.UpdateChecker
         private const string GithubURL = "https://raw.githubusercontent.com/csutorasa/XOutput/master/latest.version";
 
         private static readonly ILogger logger = LoggerFactory.GetLogger(typeof(UpdateChecker));
-        private readonly HttpClient client = new HttpClient();
+        //private readonly HttpClient client = new HttpClient();
 
         public UpdateChecker()
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            client.DefaultRequestHeaders.Add("User-Agent", "System.Net.Http.HttpClient");
+            //client.DefaultRequestHeaders.Add("User-Agent", "System.Net.Http.HttpClient");
         }
 
         /// <summary>
@@ -38,26 +38,27 @@ namespace XOutput.UpdateChecker
         /// <returns></returns>
         public async Task<VersionCompare> CompareRelease()
         {
-            VersionCompare compare;
-            HttpResponseMessage response = null;
-            try
-            {
-                await logger.Debug("Getting " + GithubURL);
-                response = await client.GetAsync(new Uri(GithubURL));
-                response.EnsureSuccessStatusCode();
-                string content = await response.Content.ReadAsStringAsync();
-                string latestRelease = GetLatestRelease(content);
-                compare = Version.Compare(Version.AppVersion, latestRelease);
-            }
-            catch (Exception)
-            {
-                compare = VersionCompare.Error;
-            }
-            finally
-            {
-                response?.Dispose();
-            }
-            return await Task.Run(() => compare);
+            //VersionCompare compare;
+            //HttpResponseMessage response = null;
+            //try
+            //{
+            //    await logger.Debug("Getting " + GithubURL);
+            //    response = await client.GetAsync(new Uri(GithubURL));
+            //    response.EnsureSuccessStatusCode();
+            //    string content = await response.Content.ReadAsStringAsync();
+            //    string latestRelease = GetLatestRelease(content);
+            //    compare = Version.Compare(Version.AppVersion, latestRelease);
+            //}
+            //catch (Exception)
+            //{
+            //    compare = VersionCompare.Error;
+            //}
+            //finally
+            //{
+            //    response?.Dispose();
+            //}
+            //return await Task.Run(() => compare);
+            return await Task.Run(() => VersionCompare.UpToDate);
         }
 
         /// <summary>
@@ -65,7 +66,7 @@ namespace XOutput.UpdateChecker
         /// </summary>
         public void Dispose()
         {
-            client.Dispose();
+            //client.Dispose();
         }
     }
 }

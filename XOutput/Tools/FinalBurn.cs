@@ -119,35 +119,39 @@ namespace XOutput.Tools
             }
             sb.AppendLine("input  \"Reset\"        switch 0x3D");
             sb.AppendLine("input  \"Test\"         switch 0x3C");
+            sb.AppendLine("input  \"Service\"         switch 0x3E");
             sb.AppendLine("input  \"Dip 1\"        constant 0x00");
             sb.AppendLine("input  \"Dip 2\"        constant 0x00");
-            sb.AppendLine("input  \"System\"       constant 0x00");
-            sb.AppendLine("input  \"Slots\"        constant 0x00");
+            sb.AppendLine("input  \"System\"       constant 0x80");
+            sb.AppendLine("input  \"Slots\"        constant 0x01");
             sb.AppendLine("input  \"Debug Dip 1\"  constant 0x00");
             sb.AppendLine("input  \"Debut Dip 2\"  constant 0x00");
             sb.AppendLine();
 
             var keysNeo = new List<string>
             {
-                "System Pause", "System FFWD", "System Load State", "System Save State","System UNDO State",
+                "System Pause", "System FFWD", "System Frame", "System Load State", "System Save State","System UNDO State",
             };
 
             for (int p = 1; p <= 2; p++)
             {
                 for (int n = 1; n <= 4; n++)
-                    keysCps.Add($"P{p} Auto-Fire Button {n}");
-                keysCps.Add($"P{p} Buttons AB");
-                keysCps.Add($"P{p} Buttons AC");
-                keysCps.Add($"P{p} Buttons AD");
-                keysCps.Add($"P{p} Buttons BC");
-                keysCps.Add($"P{p} Buttons BD");
-                keysCps.Add($"P{p} Buttons CD");
-                keysCps.Add($"P{p} Buttons ABC");
-                keysCps.Add($"P{p} Buttons ABD");
-                keysCps.Add($"P{p} Buttons ACD");
-                keysCps.Add($"P{p} Buttons BCD");
-                keysCps.Add($"P{p} Buttons ABCD");
+                    keysNeo.Add($"P{p} Auto-Fire Button {n}");
+                keysNeo.Add($"P{p} Buttons AB");
+                keysNeo.Add($"P{p} Buttons AC");
+                keysNeo.Add($"P{p} Buttons AD");
+                keysNeo.Add($"P{p} Buttons BC");
+                keysNeo.Add($"P{p} Buttons BD");
+                keysNeo.Add($"P{p} Buttons CD");
+                keysNeo.Add($"P{p} Buttons ABC");
+                keysNeo.Add($"P{p} Buttons ABD");
+                keysNeo.Add($"P{p} Buttons ACD");
+                keysNeo.Add($"P{p} Buttons BCD");
+                keysNeo.Add($"P{p} Buttons ABCD");
             }
+
+            foreach (var key in keysNeo)
+                sb.AppendLine($"macro \"{key}\" undefined");
 
             File.WriteAllText(Path.Combine(fbPath, @"config\presets\neogeo.ini"), sb.ToString());
             #endregion
